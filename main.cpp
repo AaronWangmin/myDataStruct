@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 #include "myqueue.h"
 #include "mymap.h"
 #include "mybst.h"
+#include "mybst2.h"
 
 
 /*
@@ -46,6 +48,20 @@ int maxSubSum(vector<int> &sequence)
 
 */
 
+int nameHash(string first, string last)
+{
+    static const int kLargePrime = 16908799;
+    static const int kSmallPrime = 127;
+
+    int hashVal = 0;
+
+    string fullName =  first + last;
+    for(string::iterator it = fullName.begin(); it != fullName.end(); it++){
+        char ch = tolower(*it);
+        hashVal += (kSmallPrime * hashVal + ch) % kLargePrime;
+    }
+    return hashVal;
+}
 
 int main(int argc, char *argv[])
 {
@@ -128,9 +144,14 @@ int main(int argc, char *argv[])
     t.insert(t.root,4);
     t.insert(t.root,5);
     t.insert(t.root,6);
-
-//    cout << t.contains(t.root,100) << endl;
     t.printTree(t.root);
+
+    cout << "test: myBST2(my binary search tree,the cell is a map.) " << endl;
+    myBST2<int> t2;
+    t2.add("1",100);
+    t2.add("2",200);
+    t2.printTree();
+
 
 /*
     cout << "test: maxSubSequence " << endl;
@@ -147,6 +168,15 @@ int main(int argc, char *argv[])
     }
     cout << endl;
 */
+
+    cout << "test: nameHash. " << endl;
+    string first, last;
+    cout << "pleas enter your first name: " ;
+    cin >> first;
+    cout << "please enter your last name: ";
+    cin >> last;
+    cout << "the nameHash is : " << nameHash(first,last) << endl;
+
 
     cout << "test: ASCII " << endl;
     cout << int('A') << endl;
